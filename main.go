@@ -10,14 +10,13 @@ import (
 	"os"
 )
 
-func init(){
+func init() {
 	// Loading env variables
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
 }
-
 
 // setupGlobalMiddleware will setup CORS
 func setupGlobalMiddleware(handler http.Handler) http.Handler {
@@ -32,5 +31,5 @@ func main() {
 	// create router and start listen on port
 	newRouter := router.NewRouter()
 	fmt.Println("Server starts on PORT", PORT)
-	log.Fatal(http.ListenAndServe(":" + PORT, setupGlobalMiddleware(newRouter)))
+	log.Fatal(http.ListenAndServe(":"+PORT, setupGlobalMiddleware(newRouter)))
 }
