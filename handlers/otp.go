@@ -3,6 +3,7 @@ package handler
 import (
 	"encoding/json"
 	"hades/repository"
+	"hades/utils"
 	"net/http"
 )
 
@@ -16,16 +17,32 @@ func CreateNewOTP(writer http.ResponseWriter, request *http.Request) {
 		return
 	}
 
-	err := repository.SetOTP(otp.Phone, "12345")
+	setOTPError := repository.SetOTP(otp.Phone, "12345")
 
-	if err != nil {
+	if setOTPError != nil {
 		failureResponse := FailureResponse{
 			Success:false,
-			Error: err.Error(),
+			Error: setOTPError.Error(),
 		}
 		if err := json.NewEncoder(writer).Encode(failureResponse); err != nil {
 			panic(err)
 		}
+
+		return
+	}
+
+	sendOTPError := utils.SendOTPMessage(otp.Phone, "12345", otp.Entity)
+
+	if sendOTPError != nil {
+		failureResponse := FailureResponse{
+			Success:false,
+			Error: sendOTPError.Error(),
+		}
+		if err := json.NewEncoder(writer).Encode(failureResponse); err != nil {
+			panic(err)
+		}
+
+		return
 	}
 
 
