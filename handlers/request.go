@@ -1,7 +1,8 @@
 package handler
 
 type GenerateOTPRequest struct {
-	Phone string `json:"phone"`
+	Phone  string `json:"phone"`
+	Entity string `json:"entity"`
 }
 
 type ValidateOTPRequest struct {
