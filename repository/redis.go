@@ -2,14 +2,16 @@ package repository
 
 import (
 	"github.com/go-redis/redis"
+	"os"
 	"time"
 )
 
 var client *redis.Client
 
 func init(){
+	redisURI := os.Getenv("REDIS_URI")
 	client = redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
+		Addr:     redisURI,
 		Password: "",
 		DB:       0,
 	})
