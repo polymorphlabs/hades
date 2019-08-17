@@ -1,11 +1,23 @@
 package main
 
 import (
+	"fmt"
+	"github.com/joho/godotenv"
 	"github.com/rs/cors"
 	"hades/router"
 	"log"
 	"net/http"
+	"os"
 )
+
+func init(){
+	// Loading env variables
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+}
+
 
 // setupGlobalMiddleware will setup CORS
 func setupGlobalMiddleware(handler http.Handler) http.Handler {
@@ -15,7 +27,10 @@ func setupGlobalMiddleware(handler http.Handler) http.Handler {
 
 // our main function
 func main() {
-	// create router and start listen on port 8000
+	PORT := os.Getenv("PORT")
+
+	// create router and start listen on port
 	newRouter := router.NewRouter()
-	log.Fatal(http.ListenAndServe(":8000", setupGlobalMiddleware(newRouter)))
+	fmt.Println("Server starts on PORT", PORT)
+	log.Fatal(http.ListenAndServe(":" + PORT, setupGlobalMiddleware(newRouter)))
 }
