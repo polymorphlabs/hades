@@ -10,6 +10,11 @@ var client *redis.Client
 
 func init(){
 	redisURI := os.Getenv("REDIS_URI")
+
+	if redisURI == "" {
+		redisURI = "localhost:6379"
+	}
+
 	client = redis.NewClient(&redis.Options{
 		Addr:     redisURI,
 		Password: "",
