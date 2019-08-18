@@ -14,7 +14,7 @@ func init() {
 	// Loading env variables
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatal("Error loading .env file")
+		fmt.Println(".env file not loaded. Falling back to sane defaults")
 	}
 }
 
@@ -27,6 +27,9 @@ func setupGlobalMiddleware(handler http.Handler) http.Handler {
 // our main function
 func main() {
 	PORT := os.Getenv("PORT")
+	if PORT == "" {
+		PORT = "8080"
+	}
 
 	// create router and start listen on port
 	newRouter := router.NewRouter()
