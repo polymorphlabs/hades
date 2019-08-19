@@ -5,20 +5,17 @@ Handle all One Time Pin Authentications
 
 Assuming you have a working Go environment and GOPATH/bin is in your PATH.
 
-## Dependencies
+Make sure you have dep installed
 
-Install `gorilla/mux`:
+```curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh```
 
-```
-$ go get github.com/gorilla/mux
-```
+### Install dependencies using dep
+```dep ensure```
 
-Install CORS middleware `rs/cors`:
-```
-$ go get github.com/rs/cors
-```
+### Run project
+```go run main.go```
 
-Install Go Redis client
-```
-$ go get "github.com/go-redis/redis"
-```
+# Using Docker
+You can set up the project using docker-compose
+
+```docker-compose up```
