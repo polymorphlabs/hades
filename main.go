@@ -2,21 +2,12 @@ package main
 
 import (
 	"fmt"
-	"github.com/joho/godotenv"
 	"github.com/rs/cors"
 	"hades/router"
 	"log"
 	"net/http"
 	"os"
 )
-
-func init() {
-	// Loading env variables
-	err := godotenv.Load()
-	if err != nil {
-		fmt.Println(".env file not loaded. Falling back to sane defaults")
-	}
-}
 
 // setupGlobalMiddleware will setup CORS
 func setupGlobalMiddleware(handler http.Handler) http.Handler {
@@ -27,6 +18,7 @@ func setupGlobalMiddleware(handler http.Handler) http.Handler {
 // our main function
 func main() {
 	PORT := os.Getenv("PORT")
+	fmt.Println("PORT is", PORT);
 	if PORT == "" {
 		PORT = "8080"
 	}
