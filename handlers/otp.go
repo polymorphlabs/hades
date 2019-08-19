@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"hades/repository"
 	"hades/utils"
+	"log"
 	"net/http"
 )
 
@@ -17,7 +18,14 @@ func CreateNewOTP(writer http.ResponseWriter, request *http.Request) {
 		return
 	}
 
-	setOTPError := repository.SetOTP(otp.Phone, "12345")
+	generatedOTP, OTPGenerationError := utils.GenerateOTP()
+
+	if OTPGenerationError != nil{
+		log.Fatal("Failed to generate OTP", OTPGenerationError)
+	}
+
+
+	setOTPError := repository.SetOTP(otp.Phone, generatedOTP)
 
 	if setOTPError != nil {
 		failureResponse := FailureResponse{
@@ -31,7 +39,7 @@ func CreateNewOTP(writer http.ResponseWriter, request *http.Request) {
 		return
 	}
 
-	sendOTPError := utils.SendOTPMessage(otp.Phone, "12345", otp.Entity)
+	sendOTPError := utils.SendOTPMessage(otp.Phone, generatedOTP, otp.Entity)
 
 	if sendOTPError != nil {
 		failureResponse := FailureResponse{
